@@ -155,3 +155,7 @@ variable "create_security_group" {
   type    = bool
   default = false
 }
+variable "at_rest_encryption_enabled" {
+  type    = bool
+  default = true
+}

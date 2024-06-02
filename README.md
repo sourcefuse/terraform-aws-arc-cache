@@ -51,6 +51,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_at_rest_encryption_enabled"></a> [at\_rest\_encryption\_enabled](#input\_at\_rest\_encryption\_enabled) | n/a | `bool` | `true` | no |
 | <a name="input_automatic_failover_enabled"></a> [automatic\_failover\_enabled](#input\_automatic\_failover\_enabled) | Specifies whether a read-only replica will be automatically promoted to read/write primary if the existing primary fails | `bool` | n/a | yes |
 | <a name="input_create_aws_elasticache_replication_group"></a> [create\_aws\_elasticache\_replication\_group](#input\_create\_aws\_elasticache\_replication\_group) | A boolean indicates whether to create aws elasticache replication group or not | `bool` | n/a | yes |
 | <a name="input_create_aws_elasticache_subnet_group"></a> [create\_aws\_elasticache\_subnet\_group](#input\_create\_aws\_elasticache\_subnet\_group) | A boolean indicates whether to create aws elasticache subnet group or not | `bool` | n/a | yes |
