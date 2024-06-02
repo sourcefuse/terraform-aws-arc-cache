@@ -1,8 +1,14 @@
-# terraform-aws-module-template
+# [terraform-aws-arc-cache](https://github.com/sourcefuse/terraform-aws-arc-cache)
+
+<a href="https://github.com/sourcefuse/terraform-aws-arc-cache/releases/latest"><img src="https://img.shields.io/github/release/sourcefuse/terraform-aws-arc-cache.svg?style=for-the-badge" alt="Latest Release"/></a> <a href="https://github.com/sourcefuse/terraform-aws-arc-cache/commits"><img src="https://img.shields.io/github/last-commit/sourcefuse/terraform-aws-arc-cache.svg?style=for-the-badge" alt="Last Updated"/></a> ![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?style=for-the-badge&logo=terraform&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
+
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=sourcefuse_terraform-aws-arc-cache&token=bcaee4bc307204787c5256ab3fb7f3454a84c169)](https://sonarcloud.io/summary/new_code?id=sourcefuse_terraform-aws-arc-cache)
+
+[![snyk](https://github.com/sourcefuse/terraform-aws-arc-cache/actions/workflows/snyk.yaml/badge.svg)](https://github.com/sourcefuse/terraform-aws-arc-cache/actions/workflows/snyk.yaml)
 
 ## Overview
 
-SourceFuse AWS Reference Architecture (ARC) Terraform module for managing _________.
+SourceFuse AWS Reference Architecture (ARC) Terraform module for managing Elasticache replication clusters.
 
 ## Usage
 
