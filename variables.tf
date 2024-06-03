@@ -1,4 +1,15 @@
-variable "create_aws_elasticache_replication_group" {
+variable "environment" {
+  type        = string
+  default     = "poc"
+  description = "ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT'"
+}
+
+variable "namespace" {
+  type        = string
+  description = "Namespace for the resources."
+  default     = "arc"
+}
+variable "create_cache" {
   type        = bool
   description = "A boolean indicates whether to create aws elasticache replication group or not"
 }
@@ -48,7 +59,7 @@ variable "engine_version" {
   description = "Version number of the cache engine to be used for the cache clusters in this replication group"
 }
 
-variable "create_aws_elasticache_subnet_group" {
+variable "create_cache_subnet_group" {
   type        = bool
   description = "A boolean indicates whether to create aws elasticache subnet group or not"
 }
@@ -56,11 +67,6 @@ variable "create_aws_elasticache_subnet_group" {
 variable "elasticache_subnet_group_name" {
   type        = string
   description = "Name for the cache subnet group"
-}
-
-variable "subnet_group_names" {
-  type        = list(string)
-  description = "Required when create_aws_elasticache_subnet_group is false. Name of the cache subnet group to be used for the replication group."
 }
 
 variable "snapshot_retention_limit" {
@@ -93,6 +99,10 @@ variable "subnet_group_name" {
 variable "vpc_id" {
   description = "VPC ID Where resources will live"
   type        = string
+}
+variable "subnet_ids" {
+  description = "private subnet ids"
+  type        = list(string)
 }
 
 variable "num_node_groups" {

@@ -54,25 +54,25 @@ variable "egress_rules" {
 
 variable "elasticacheredis" {
   type = map(object({
-    create_aws_elasticache_replication_group = optional(bool, true)
-    automatic_failover_enabled               = optional(bool, true)
-    multi_az_enabled                         = optional(bool, false)
-    replication_group_id                     = string
-    node_type                                = string
-    num_cache_clusters                       = number
-    parameter_group_name                     = string
-    port                                     = number
-    replication_group_description            = optional(string)
-    create_aws_elasticache_subnet_group      = optional(bool, true)
-    elasticache_subnet_group_name            = string
-    subnet_group_description                 = optional(string)
-    engine_version                           = string
-    security_group_names                     = list(string)
-    subnet_group_names                       = list(string)
-    snapshot_retention_limit                 = number
-    snapshot_window                          = string
-    num_node_groups                          = number
-    replicas_per_node_group                  = number
+    create_cache                  = optional(bool, true)
+    automatic_failover_enabled    = optional(bool, true)
+    multi_az_enabled              = optional(bool, false)
+    replication_group_id          = string
+    node_type                     = string
+    num_cache_clusters            = number
+    parameter_group_name          = string
+    port                          = number
+    replication_group_description = optional(string)
+    create_cache_subnet_group     = optional(bool, true)
+    elasticache_subnet_group_name = string
+    subnet_group_description      = optional(string)
+    engine_version                = string
+    security_group_names          = list(string)
+    subnet_group_names            = list(string)
+    snapshot_retention_limit      = number
+    snapshot_window               = string
+    num_node_groups               = number
+    replicas_per_node_group       = number
   }))
   description = "ElastiCache Redis instance configuration"
   default     = {}

@@ -10,13 +10,6 @@ data "aws_security_groups" "this" {
   }
 }
 
-data "aws_subnets" "this" {
-  filter {
-    name   = "tag:Name"
-    values = var.subnet_group_names
-  }
-}
-
 data "aws_ssm_parameter" "retrieved_redis_password" {
   name       = aws_ssm_parameter.uuid_parameter.name
   depends_on = [aws_ssm_parameter.uuid_parameter]
