@@ -39,12 +39,12 @@ resource "aws_cloudwatch_log_group" "default" {
 }
 
 module "elasticacheredis" {
-  source                        = "../"
-  subnet_ids                    = data.aws_subnets.private.ids
-  vpc_id                        = data.aws_vpc.vpc.id
-  tags                          = module.tags.tags
-  security_group_rules          = var.security_group_rules
-  
+  source               = "../"
+  subnet_ids           = data.aws_subnets.private.ids
+  vpc_id               = data.aws_vpc.vpc.id
+  tags                 = module.tags.tags
+  security_group_rules = var.security_group_rules
+
   log_delivery_configuration = [
     {
       destination      = aws_cloudwatch_log_group.default.name

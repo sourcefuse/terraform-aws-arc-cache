@@ -13,11 +13,11 @@ resource "aws_ssm_parameter" "uuid_parameter" {
 }
 resource "aws_elasticache_replication_group" "this" {
   automatic_failover_enabled = var.automatic_failover_enabled
-  replication_group_id       = coalesce(var.replication_group_id , "${var.namespace}-${var.environment}-elasticache")
-  description                = coalesce(var.replication_group_description , "Default Redis replication group description.")
+  replication_group_id       = coalesce(var.replication_group_id, "${var.namespace}-${var.environment}-elasticache")
+  description                = coalesce(var.replication_group_description, "Default Redis replication group description.")
   node_type                  = var.node_type
   num_cache_clusters         = var.num_cache_clusters
-  parameter_group_name       = coalesce(var.parameter_group_name , "${var.namespace}-${var.environment}-elasticache")
+  parameter_group_name       = coalesce(var.parameter_group_name, "${var.namespace}-${var.environment}-elasticache")
   security_group_ids         = var.create_security_group == true ? aws_security_group.sg[*].id : var.security_group_ids
   port                       = var.port
   multi_az_enabled           = var.multi_az_enabled
@@ -90,9 +90,9 @@ resource "aws_elasticache_subnet_group" "this" {
 resource "aws_security_group" "sg" {
   count = var.create_security_group ? 1 : 0
 
-  name        = coalesce(var.security_group_name , "cache-security-group")
+  name        = coalesce(var.security_group_name, "cache-security-group")
   vpc_id      = var.vpc_id
-  description = coalesce(var.security_group_description , "Default description of cache-security-group")
+  description = coalesce(var.security_group_description, "Default description of cache-security-group")
 
   dynamic "ingress" {
     for_each = var.security_group_rules.ingress

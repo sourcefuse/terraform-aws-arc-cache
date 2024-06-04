@@ -19,7 +19,7 @@ variable "automatic_failover_enabled" {
 variable "replication_group_id" {
   type        = string
   description = "Replication group identifier. This parameter is stored as a lowercase string"
-  default = null
+  default     = null
 }
 
 variable "replication_group_description" {
