@@ -21,7 +21,7 @@ module "elasticacheredis" {
   vpc_id                        = data.aws_vpc.vpc.id
   tags                          = module.tags.tags
   security_group_rules          = var.security_group_rules
-  replication_group_id          = var.replication_group_id
+  name                          = var.name
 
   log_delivery_configuration = [
     {

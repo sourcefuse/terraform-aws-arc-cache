@@ -10,7 +10,7 @@ locals {
   )
   # The name of the parameter group can’t include "."
   safe_family = replace(var.family, ".", "-")
-  environment = try(var.tags.environment, var.tags.Environment, var.env, "")
+  environment = try(var.tags.environment, var.tags.Environment, var.tags.env, "")
   namespace   = try(var.tags.namespace, "")
-  sg_name     = local.namespace == "" ? "${local.environment}-var.name" : "${local.namespace}-${local.environment}-var.name"
+  sg_name     = local.namespace == "" ? "${local.environment}-${var.name}" : "${local.namespace}-${local.environment}-${var.name}"
 }

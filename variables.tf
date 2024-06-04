@@ -236,8 +236,3 @@ variable "user_group_ids" {
   default     = null
   description = "User Group ID to associate with the replication group"
 }
-variable "env" {
-  description = "The environment in which resources are deployed (e.g., dev, staging, prod)."
-  type        = string
-  default     = null
-}

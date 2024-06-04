@@ -17,7 +17,7 @@ resource "aws_elasticache_replication_group" "this" {
   description                = var.replication_group_description != null ? var.replication_group_description : "${var.name}-cache-replication-group"
   node_type                  = var.node_type
   num_cache_clusters         = var.num_cache_clusters
-  parameter_group_name       = var.parameter_group_name != null ? var.parameter_group_name : var.name
+  parameter_group_name       = var.parameter_group_name != null ? var.parameter_group_name : local.parameter_group_name
   security_group_ids         = var.create_security_group == true ? aws_security_group.sg[*].id : var.security_group_ids
   port                       = var.port
   multi_az_enabled           = var.multi_az_enabled
@@ -81,8 +81,8 @@ resource "aws_elasticache_parameter_group" "this" {
 
 resource "aws_elasticache_subnet_group" "this" {
   count       = var.create_cache_subnet_group == true ? 1 : 0
-  name        = var.elasticache_subnet_group_name != null ? var.elasticache_subnet_group_name : "${var.name}-redis-subnet-group"
-  description = var.subnet_group_description != null ? var.subnet_group_description : "${var.name}-redis-subnet-group"
+  name        = var.elasticache_subnet_group_name != null ? var.elasticache_subnet_group_name : "${var.name}-subnet-group"
+  description = var.subnet_group_description != null ? var.subnet_group_description : "${var.name}-subnet-group"
   subnet_ids  = var.subnet_ids
   tags        = var.tags
 }
@@ -92,7 +92,7 @@ resource "aws_security_group" "sg" {
 
   name        = var.security_group_name != null ? var.security_group_name : local.sg_name
   vpc_id      = var.vpc_id
-  description = var.security_group_description != null ? var.security_group_description : "${var.name}-security-group"
+  description = var.security_group_description != null ? var.security_group_description : "${local.sg_name}-security-group"
 
   dynamic "ingress" {
     for_each = var.security_group_rules.ingress
