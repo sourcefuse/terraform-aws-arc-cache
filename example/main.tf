@@ -38,7 +38,7 @@ resource "aws_cloudwatch_log_group" "default" {
   tags              = module.tags.tags
 }
 
-module "elasticacheredis" {
+module "elasticache-redis" {
   source               = "../"
   subnet_ids           = data.aws_subnets.private.ids
   vpc_id               = data.aws_vpc.vpc.id
