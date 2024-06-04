@@ -36,6 +36,7 @@
 |------|-------------|------|---------|:--------:|
 | <a name="input_cloudwatch_logs_log_group_name"></a> [cloudwatch\_logs\_log\_group\_name](#input\_cloudwatch\_logs\_log\_group\_name) | name of the log group | `string` | `"/logs/elasticcache-redis"` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT' | `string` | `"poc"` | no |
+| <a name="input_name"></a> [name](#input\_name) | Name of elasticache redis | `string` | n/a | yes |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace for the resources. | `string` | `"arc"` | no |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Name of the project. | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | AWS region | `string` | `"us-east-1"` | no |
