@@ -63,3 +63,7 @@ variable "cloudwatch_logs_log_group_name" {
   type        = string
   description = "name of the log group"
 }
+variable "name" {
+  type        = string
+  description = "Name of elasticache redis"
+}

@@ -2,6 +2,7 @@ namespace    = "arc"
 region       = "us-east-1"
 environment  = "poc"
 project_name = "arc-mono-infra"
+name         = "arc-poc-elasticache"
 security_group_rules = {
   ingress = {
     "rule1" = {

@@ -16,10 +16,9 @@ variable "automatic_failover_enabled" {
   default     = false
 }
 
-variable "replication_group_id" {
+variable "name" {
   type        = string
-  description = "Replication group identifier. This parameter is stored as a lowercase string"
-  default     = null
+  description = "Name of elasticache redis"
 }
 
 variable "replication_group_description" {
@@ -236,4 +235,9 @@ variable "user_group_ids" {
   type        = list(string)
   default     = null
   description = "User Group ID to associate with the replication group"
+}
+variable "env" {
+  description = "The environment in which resources are deployed (e.g., dev, staging, prod)."
+  type        = string
+  default     = null
 }
