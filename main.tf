@@ -17,7 +17,7 @@ resource "aws_elasticache_replication_group" "this" {
   description                = var.replication_group_description != null ? var.replication_group_description : "${var.name}-cache-replication-group"
   node_type                  = var.node_type
   num_cache_clusters         = var.num_cache_clusters
-  parameter_group_name       = var.parameter_group_name != null ? var.parameter_group_name : "${var.name}"
+  parameter_group_name       = var.parameter_group_name != null ? var.parameter_group_name : var.name
   security_group_ids         = var.create_security_group == true ? aws_security_group.sg[*].id : var.security_group_ids
   port                       = var.port
   multi_az_enabled           = var.multi_az_enabled
