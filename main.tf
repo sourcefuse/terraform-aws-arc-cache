@@ -7,7 +7,7 @@ resource "random_string" "auth_token" {
 }
 
 resource "aws_ssm_parameter" "uuid_parameter" {
-  name  = "/${var.namespace}/${var.environment}/redis/password"
+  name  = "/${var.name}/redis/password"
   type  = "SecureString"
   value = random_string.auth_token.result
 }
