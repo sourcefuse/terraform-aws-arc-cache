@@ -12,13 +12,12 @@ resource "aws_ssm_parameter" "uuid_parameter" {
   value = random_string.auth_token.result
 }
 resource "aws_elasticache_replication_group" "this" {
-  count                      = var.create_cache == true ? 1 : 0
   automatic_failover_enabled = var.automatic_failover_enabled
-  replication_group_id       = var.replication_group_id
-  description                = var.replication_group_description
+  replication_group_id       = coalesce(var.replication_group_id , "${var.namespace}-${var.environment}-elasticache")
+  description                = coalesce(var.replication_group_description , "Default Redis replication group description.")
   node_type                  = var.node_type
   num_cache_clusters         = var.num_cache_clusters
-  parameter_group_name       = var.parameter_group_name
+  parameter_group_name       = coalesce(var.parameter_group_name , "${var.namespace}-${var.environment}-elasticache")
   security_group_ids         = var.create_security_group == true ? aws_security_group.sg[*].id : var.security_group_ids
   port                       = var.port
   multi_az_enabled           = var.multi_az_enabled
@@ -82,8 +81,8 @@ resource "aws_elasticache_parameter_group" "this" {
 
 resource "aws_elasticache_subnet_group" "this" {
   count       = var.create_cache_subnet_group == true ? 1 : 0
-  name        = var.elasticache_subnet_group_name
-  description = var.subnet_group_description
+  name        = coalesce(var.elasticache_subnet_group_name, "${var.namespace}-${var.environment}-redis-subnet-group")
+  description = coalesce(var.subnet_group_description, "Default description for the Redis subnet group.")
   subnet_ids  = var.subnet_ids
   tags        = var.tags
 }
@@ -91,12 +90,12 @@ resource "aws_elasticache_subnet_group" "this" {
 resource "aws_security_group" "sg" {
   count = var.create_security_group ? 1 : 0
 
-  name        = var.name
+  name        = coalesce(var.security_group_name , "cache-security-group")
   vpc_id      = var.vpc_id
-  description = var.description
+  description = coalesce(var.security_group_description , "Default description of cache-security-group")
 
   dynamic "ingress" {
-    for_each = var.ingress_rules
+    for_each = var.security_group_rules.ingress
 
     content {
       description      = ingress.value.description
@@ -111,7 +110,7 @@ resource "aws_security_group" "sg" {
   }
 
   dynamic "egress" {
-    for_each = var.egress_rules
+    for_each = var.security_group_rules.egress
 
     content {
       description      = egress.value.description
