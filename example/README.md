@@ -19,7 +19,7 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_elasticacheredis"></a> [elasticacheredis](#module\_elasticacheredis) | ../ | n/a |
+| <a name="module_elasticache-redis"></a> [elasticache-redis](#module\_elasticache-redis) | ../ | n/a |
 | <a name="module_tags"></a> [tags](#module\_tags) | sourcefuse/arc-tags/aws | 1.2.3 |
 
 ## Resources
