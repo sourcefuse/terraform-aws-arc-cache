@@ -47,7 +47,14 @@ module "elasticacheredis" {
   create_security_group                    = true
   ingress_rules                            = var.ingress_rules
   egress_rules                             = var.egress_rules
-
+  log_delivery_configuration = [
+    {
+      destination      = aws_cloudwatch_log_group.default.name
+      destination_type = "cloudwatch-logs"
+      log_format       = "json"
+      log_type         = "engine-log"
+    }
+  ]
 }
 ```
 
