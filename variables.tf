@@ -39,11 +39,6 @@ variable "num_cache_clusters" {
   description = "Number of cache clusters this replication group will have"
 }
 
-variable "parameter_group_name" {
-  type        = string
-  description = "Name of the parameter group to associate with this replication group"
-}
-
 variable "port" {
   type        = number
   description = "Port number on which each of the cache nodes will accept connection"
@@ -110,9 +105,10 @@ variable "num_node_groups" {
   description = "Number of node groups (shards) for this Redis replication group"
 }
 
-variable "security_group_names" {
+variable "security_group_ids" {
   type        = list(string)
   description = "List of cache security group names to associate with this replication group"
+  default     = [""]
 }
 
 variable "replicas_per_node_group" {
@@ -123,13 +119,13 @@ variable "replicas_per_node_group" {
 variable "description" {
   type        = string
   description = "Description of the security groups"
-  default     = "my-security-group"
+  default     = "cache-security-group"
 }
 
 variable "name" {
   type        = string
   description = "Prefix for the name of the security groups."
-  default     = "my-security-group"
+  default     = "cache-security-group"
 }
 
 variable "ingress_rules" {
@@ -163,9 +159,67 @@ variable "egress_rules" {
 
 variable "create_security_group" {
   type    = bool
-  default = false
+  default = true
 }
 variable "at_rest_encryption_enabled" {
   type    = bool
   default = true
+}
+
+variable "apply_immediately" {
+  type        = bool
+  default     = true
+  description = "Apply changes immediately"
+}
+variable "create_parameter_group" {
+  type        = bool
+  default     = true
+  description = "Whether new parameter group should be created. Set to false if you want to use existing parameter group"
+}
+
+variable "parameter_group_description" {
+  type        = string
+  default     = null
+  description = "Managed by Terraform"
+}
+
+variable "parameter_group_name" {
+  type        = string
+  default     = null
+  description = "Override the default parameter group name"
+}
+
+variable "log_delivery_configuration" {
+  type        = list(map(any))
+  default     = []
+  description = "The log_delivery_configuration block allows the streaming of Redis SLOWLOG or Redis Engine Log to CloudWatch Logs or Kinesis Data Firehose. Max of 2 blocks."
+}
+variable "auto_minor_version_upgrade" {
+  type        = bool
+  default     = null
+  description = "Specifies whether minor version engine upgrades will be applied automatically to the underlying Cache Cluster instances during the maintenance window. Only supported if the engine version is 6 or higher."
+}
+
+variable "cluster_mode_enabled" {
+  type        = bool
+  description = "Flag to enable/disable creation of a native redis cluster. `automatic_failover_enabled` must be set to `true`. Only 1 `cluster_mode` block is allowed"
+  default     = false
+}
+variable "family" {
+  type        = string
+  default     = "redis7"
+  description = "Redis family"
+}
+variable "parameter" {
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default     = []
+  description = "A list of Redis parameters to apply. Note that parameters may differ from one Redis family to another"
+}
+variable "user_group_ids" {
+  type        = list(string)
+  default     = null
+  description = "User Group ID to associate with the replication group"
 }

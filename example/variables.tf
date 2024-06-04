@@ -67,8 +67,6 @@ variable "elasticacheredis" {
     elasticache_subnet_group_name = string
     subnet_group_description      = optional(string)
     engine_version                = string
-    security_group_names          = list(string)
-    subnet_group_names            = list(string)
     snapshot_retention_limit      = number
     snapshot_window               = string
     num_node_groups               = number
@@ -76,4 +74,16 @@ variable "elasticacheredis" {
   }))
   description = "ElastiCache Redis instance configuration"
   default     = {}
+}
+
+variable "retention_in_days" {
+  description = "Number of days you want to retain log events in the log group"
+  type        = number
+  default     = "30"
+}
+
+variable "cloudwatch_logs_log_group_name" {
+  default     = "/logs/elasticcache-redis"
+  type        = string
+  description = "name of the log group"
 }

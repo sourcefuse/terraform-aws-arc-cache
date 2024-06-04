@@ -29,9 +29,15 @@ module "tags" {
 
   extra_tags = {
     MonoRepo     = "True"
-    MonoRepoPath = "terraform/synthetics"
+    MonoRepoPath = "terraform/elasticache"
   }
 }
+resource "aws_cloudwatch_log_group" "default" {
+  name              = var.cloudwatch_logs_log_group_name
+  retention_in_days = var.retention_in_days
+  tags              = module.tags.tags
+}
+
 module "elasticacheredis" {
   source   = "../"
   for_each = var.elasticacheredis
@@ -39,13 +45,11 @@ module "elasticacheredis" {
   elasticache_subnet_group_name = each.value.elasticache_subnet_group_name
 
   ## networking
-  # subnet_group_name         = [data.aws_subnets.private.ids]
-  subnet_ids                = [data.aws_subnets.private.ids]
+  subnet_ids                = data.aws_subnets.private.ids
   subnet_group_description  = each.value.subnet_group_description
   multi_az_enabled          = each.value.multi_az_enabled
   create_cache_subnet_group = each.value.create_cache_subnet_group
   vpc_id                    = data.aws_vpc.vpc.id
-  security_group_names      = each.value.security_group_names
 
   ## configuration
   create_cache                  = each.value.create_cache
@@ -63,9 +67,15 @@ module "elasticacheredis" {
   replicas_per_node_group       = each.value.replicas_per_node_group
   tags                          = module.tags.tags
   create_security_group         = true
-  name                          = "example-sg"
-  description                   = "Example security group"
   ingress_rules                 = var.ingress_rules
   egress_rules                  = var.egress_rules
+  log_delivery_configuration = [
+    {
+      destination      = aws_cloudwatch_log_group.default.name
+      destination_type = "cloudwatch-logs"
+      log_format       = "json"
+      log_type         = "engine-log"
+    }
+  ]
 
 }

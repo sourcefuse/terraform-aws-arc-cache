@@ -19,7 +19,7 @@ resource "aws_elasticache_replication_group" "this" {
   node_type                  = var.node_type
   num_cache_clusters         = var.num_cache_clusters
   parameter_group_name       = var.parameter_group_name
-  security_group_ids         = data.aws_security_groups.this.ids
+  security_group_ids         = var.create_security_group == true ? aws_security_group.sg[*].id : var.security_group_ids
   port                       = var.port
   multi_az_enabled           = var.multi_az_enabled
   engine_version             = var.engine_version
@@ -31,8 +31,53 @@ resource "aws_elasticache_replication_group" "this" {
   subnet_group_name          = var.create_cache_subnet_group == true ? aws_elasticache_subnet_group.this[0].name : var.subnet_group_name
   transit_encryption_enabled = true
   auth_token                 = data.aws_ssm_parameter.retrieved_redis_password.value
+  auto_minor_version_upgrade = var.auto_minor_version_upgrade
+  apply_immediately          = var.apply_immediately
+  user_group_ids             = var.user_group_ids
   tags                       = var.tags
-  depends_on                 = [aws_security_group.sg]
+  dynamic "log_delivery_configuration" {
+    for_each = var.log_delivery_configuration
+
+    content {
+      destination      = lookup(log_delivery_configuration.value, "destination", null)
+      destination_type = lookup(log_delivery_configuration.value, "destination_type", null)
+      log_format       = lookup(log_delivery_configuration.value, "log_format", null)
+      log_type         = lookup(log_delivery_configuration.value, "log_type", null)
+    }
+  }
+  lifecycle {
+    ignore_changes = [
+      security_group_names,
+    ]
+  }
+  depends_on = [
+    aws_elasticache_parameter_group.this
+  ]
+}
+resource "aws_elasticache_parameter_group" "this" {
+  count       = var.create_parameter_group ? 1 : 0
+  name        = local.parameter_group_name
+  description = var.parameter_group_description != null ? var.parameter_group_description : "Elasticache parameter group ${local.parameter_group_name}"
+  family      = var.family
+
+  dynamic "parameter" {
+    for_each = var.cluster_mode_enabled ? concat([{ name = "cluster-enabled", value = "yes" }], var.parameter) : var.parameter
+    content {
+      name  = parameter.value.name
+      value = tostring(parameter.value.value)
+    }
+  }
+
+  tags = var.tags
+
+  lifecycle {
+    create_before_destroy = true
+
+    # Ignore changes to the description since it will try to recreate the resource
+    ignore_changes = [
+      description,
+    ]
+  }
 }
 
 resource "aws_elasticache_subnet_group" "this" {
@@ -41,7 +86,6 @@ resource "aws_elasticache_subnet_group" "this" {
   description = var.subnet_group_description
   subnet_ids  = var.subnet_ids
   tags        = var.tags
-  depends_on  = [aws_security_group.sg]
 }
 
 resource "aws_security_group" "sg" {
@@ -82,7 +126,4 @@ resource "aws_security_group" "sg" {
 
   tags = var.tags
 
-  lifecycle {
-    create_before_destroy = true
-  }
 }
