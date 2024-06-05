@@ -39,7 +39,8 @@ resource "aws_cloudwatch_log_group" "default" {
 }
 
 module "elasticache-redis" {
-  source               = "../"
+  source               = "sourcefuse/arc-cache/aws"
+  version              = "0.0.1"
   subnet_ids           = data.aws_subnets.private.ids
   vpc_id               = data.aws_vpc.vpc.id
   tags                 = module.tags.tags
