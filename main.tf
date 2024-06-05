@@ -27,6 +27,7 @@ resource "aws_elasticache_replication_group" "this" {
   num_node_groups            = var.num_node_groups
   replicas_per_node_group    = var.replicas_per_node_group
   at_rest_encryption_enabled = var.at_rest_encryption_enabled
+  notification_topic_arn     = var.notification_topic_arn
   subnet_group_name          = var.create_cache_subnet_group == true ? aws_elasticache_subnet_group.this[0].name : var.subnet_group_name
   transit_encryption_enabled = true
   auth_token                 = data.aws_ssm_parameter.retrieved_redis_password.value
@@ -125,4 +126,52 @@ resource "aws_security_group" "sg" {
 
   tags = var.tags
 
+}
+
+resource "aws_cloudwatch_metric_alarm" "cache_cpu" {
+  count               = var.cloudwatch_metric_alarms_enabled ? 1 : 0
+  alarm_name          = "${var.name}-cpu-utilization"
+  alarm_description   = "Redis cluster CPU utilization"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = "1"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/ElastiCache"
+  period              = "300"
+  statistic           = "Average"
+
+  threshold = var.alarm_cpu_threshold_percent
+
+  dimensions = {
+    CacheClusterId = aws_elasticache_replication_group.this.id
+  }
+
+  alarm_actions = var.alarm_actions
+  ok_actions    = var.ok_actions
+  depends_on    = [aws_elasticache_replication_group.this]
+
+  tags = var.tags
+}
+
+resource "aws_cloudwatch_metric_alarm" "cache_memory" {
+  count               = var.cloudwatch_metric_alarms_enabled ? 1 : 0
+  alarm_name          = "${var.name}-freeable-memory"
+  alarm_description   = "Redis cluster freeable memory"
+  comparison_operator = "LessThanThreshold"
+  evaluation_periods  = "1"
+  metric_name         = "FreeableMemory"
+  namespace           = "AWS/ElastiCache"
+  period              = "60"
+  statistic           = "Average"
+
+  threshold = var.alarm_memory_threshold_bytes
+
+  dimensions = {
+    CacheClusterId = aws_elasticache_replication_group.this.id
+  }
+
+  alarm_actions = var.alarm_actions
+  ok_actions    = var.ok_actions
+  depends_on    = [aws_elasticache_replication_group.this]
+
+  tags = var.tags
 }

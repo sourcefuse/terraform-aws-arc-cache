@@ -224,3 +224,37 @@ variable "user_group_ids" {
   default     = null
   description = "User Group ID to associate with the replication group"
 }
+variable "alarm_cpu_threshold_percent" {
+  type        = number
+  default     = 75
+  description = "CPU threshold alarm level"
+}
+
+variable "alarm_memory_threshold_bytes" {
+  # 10MB
+  type        = number
+  default     = 10000000
+  description = "Ram threshold alarm level"
+}
+
+variable "alarm_actions" {
+  type        = list(string)
+  description = "Alarm action list"
+  default     = []
+}
+
+variable "ok_actions" {
+  type        = list(string)
+  description = "The list of actions to execute when this alarm transitions into an OK state from any other state. Each action is specified as an Amazon Resource Number (ARN)"
+  default     = []
+}
+variable "cloudwatch_metric_alarms_enabled" {
+  type        = bool
+  description = "Boolean flag to enable/disable CloudWatch metrics alarms"
+  default     = false
+}
+variable "notification_topic_arn" {
+  type        = string
+  default     = ""
+  description = "(Optional) ARN of an SNS topic to send ElastiCache notifications to."
+}
