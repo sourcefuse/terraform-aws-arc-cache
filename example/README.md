@@ -45,5 +45,10 @@
 
 ## Outputs
 
-No outputs.
+| Name | Description |
+|------|-------------|
+| <a name="output_arn"></a> [arn](#output\_arn) | ARN of the created ElastiCache Replication Group |
+| <a name="output_id"></a> [id](#output\_id) | ID of the ElastiCache Replication Group |
+| <a name="output_name"></a> [name](#output\_name) | The Name of the ElastiCache Subnet Group |
+| <a name="output_primary_endpoint_address"></a> [primary\_endpoint\_address](#output\_primary\_endpoint\_address) | Address of the endpoint for the primary node in the replication group, if the cluster mode is disabled |
 <!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
