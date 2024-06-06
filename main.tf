@@ -129,15 +129,15 @@ resource "aws_security_group" "sg" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "cache_cpu" {
-  count               = var.cloudwatch_metric_alarms_enabled ? 1 : 0
+  count               = var.enable_cloudwatch_alarms ? 1 : 0
   alarm_name          = "${var.name}-cpu-utilization"
-  alarm_description   = "Redis cluster CPU utilization"
+  alarm_description   = var.cpu_alarm_description
   comparison_operator = "GreaterThanThreshold"
-  evaluation_periods  = "1"
+  evaluation_periods  = var.evaluation_periods
   metric_name         = "CPUUtilization"
-  namespace           = "AWS/ElastiCache"
+  namespace           = var.namespace
   period              = "300"
-  statistic           = "Average"
+  statistic           = var.statistic
 
   threshold = var.alarm_cpu_threshold_percent
 
@@ -153,15 +153,15 @@ resource "aws_cloudwatch_metric_alarm" "cache_cpu" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "cache_memory" {
-  count               = var.cloudwatch_metric_alarms_enabled ? 1 : 0
+  count               = var.enable_cloudwatch_alarms ? 1 : 0
   alarm_name          = "${var.name}-freeable-memory"
-  alarm_description   = "Redis cluster freeable memory"
+  alarm_description   = var.memory_alarm_description
   comparison_operator = "LessThanThreshold"
-  evaluation_periods  = "1"
+  evaluation_periods  = var.evaluation_periods
   metric_name         = "FreeableMemory"
-  namespace           = "AWS/ElastiCache"
+  namespace           = var.namespace
   period              = "60"
-  statistic           = "Average"
+  statistic           = var.statistic
 
   threshold = var.alarm_memory_threshold_bytes
 

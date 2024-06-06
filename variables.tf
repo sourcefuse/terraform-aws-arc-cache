@@ -248,7 +248,7 @@ variable "ok_actions" {
   description = "The list of actions to execute when this alarm transitions into an OK state from any other state. Each action is specified as an Amazon Resource Number (ARN)"
   default     = []
 }
-variable "cloudwatch_metric_alarms_enabled" {
+variable "enable_cloudwatch_alarms" {
   type        = bool
   description = "Boolean flag to enable/disable CloudWatch metrics alarms"
   default     = false
@@ -257,4 +257,30 @@ variable "notification_topic_arn" {
   type        = string
   default     = ""
   description = "(Optional) ARN of an SNS topic to send ElastiCache notifications to."
+}
+variable "cpu_alarm_description" {
+  description = "Description for the CPU utilization CloudWatch alarm"
+  type        = string
+  default     = "Triggers when the CPU utilization of the Redis cluster exceeds the defined threshold, indicating high CPU usage."
+}
+
+variable "memory_alarm_description" {
+  description = "Description for the freeable memory CloudWatch alarm"
+  type        = string
+  default     = "Triggers when the available freeable memory of the Redis cluster falls below the defined threshold, indicating potential memory pressure or resource issues."
+}
+variable "evaluation_periods" {
+  description = "Number of periods over which data is compared to the specified threshold"
+  type        = number
+  default     = 1
+}
+variable "namespace" {
+  description = "The namespace of the CloudWatch metric"
+  type        = string
+  default     = "AWS/ElastiCache"
+}
+variable "statistic" {
+  description = "The statistic to apply to the alarm's associated metric"
+  type        = string
+  default     = "Average"
 }
