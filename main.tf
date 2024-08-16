@@ -27,6 +27,7 @@ resource "aws_elasticache_replication_group" "this" {
   num_node_groups            = var.num_node_groups
   replicas_per_node_group    = var.replicas_per_node_group
   at_rest_encryption_enabled = var.at_rest_encryption_enabled
+  kms_key_id                 = var.at_rest_encryption_enabled ? var.kms_key_id : null
   notification_topic_arn     = var.notification_topic_arn
   subnet_group_name          = var.create_cache_subnet_group == true ? aws_elasticache_subnet_group.this[0].name : var.subnet_group_name
   transit_encryption_enabled = true

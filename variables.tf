@@ -284,3 +284,8 @@ variable "statistic" {
   type        = string
   default     = "Average"
 }
+variable "kms_key_id" {
+  type        = string
+  description = "The ARN of the key that you wish to use if encrypting at rest. If not supplied, uses service managed encryption. `at_rest_encryption_enabled` must be set to `true`"
+  default     = null
+}
