@@ -45,10 +45,5 @@ jobs:
           cd /tmp
           curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
       - name: Run pre-commit
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@f5c2d257b41b727742d1bb25e1d1457e1baafeec
         continue-on-error: true  # we want to push the changes pre-commit makes
-
-      - name: Push pre-commit changes to branch
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: Push pre-commit changes
