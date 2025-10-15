@@ -30,8 +30,8 @@ resource "aws_elasticache_replication_group" "this" {
   kms_key_id                 = var.at_rest_encryption_enabled ? var.kms_key_id : null
   notification_topic_arn     = var.notification_topic_arn
   subnet_group_name          = var.create_cache_subnet_group == true ? aws_elasticache_subnet_group.this[0].name : var.subnet_group_name
-  transit_encryption_enabled = true
-  auth_token                 = data.aws_ssm_parameter.retrieved_redis_password.value
+  transit_encryption_enabled = var.transit_encryption_enabled
+  auth_token                 = var.transit_encryption_enabled ? data.aws_ssm_parameter.retrieved_redis_password.value : null
   auto_minor_version_upgrade = var.auto_minor_version_upgrade
   apply_immediately          = var.apply_immediately
   user_group_ids             = var.user_group_ids
